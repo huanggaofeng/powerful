@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hgf.user.dao.UserDao">
+
+    <select id="getUserNameById" resultType="java.lang.String">
+        select user_name from user where id = #{id}
+    </select>
+    <select id="selectById" resultType="com.hgf.user.emtity.User">
+        select * from user where id = #{id} <!--for update-->
+    </select>
+</mapper>

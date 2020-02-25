@@ -1,0 +1,105 @@
+spring:
+  redis:
+    host: linux
+    port: 6379
+    database: 0
+    password: huanggaofeng123@
+  application:
+    name: controla
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    druid:
+      url: jdbc:mysql://127.0.0.1:3306/powerful?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC
+      username: root
+      password: qq123456
+      initial-size: 10
+      max-active: 100
+      min-idle: 10
+      max-wait: 60000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1 FROM DUAL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+      #login-username: admin
+      #login-password: admin
+      filter:
+        stat:
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
+  cloud:
+#  consul:
+#    port: 8500
+#    host: localhost
+#    # 注册到consul中的服务名
+#    discovery:
+#      serviceName: controla
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      # 默认过滤器
+      default-filters:
+      - name: Hystrix
+        args:
+          name: hystrixCommand
+          # 全局熔断器方法
+          fallbackUri: forward:/fallBack
+      routes:
+#      - id: user-service
+#        # uri以lb://开头（lb代表从注册中心获取服务），后面接的就是需要转发到的服务名称
+#        uri: lb://user
+#        predicates:
+#        # 匹配路径 所以实际访问路径为user/hi
+#        - Path=/user/**
+#        filters:
+#        # StripPrefix=1表示二级url路径转发
+#        - StripPrefix=1
+        # 基于redis的限流器
+#        - name: RequestRateLimiter
+#          args:
+#            redis-rate-limiter.replenishRate: 1
+#            redis-rate-limiter.burstCapacity: 3
+#            key-resolver: '#{@hostAddrKeyResolver}'
+#        自定义限流器，失败
+#        - name: FilerByIp
+#          args:
+#            capacity: 1
+#            refillTokens: 3
+#        - name: Hystrix
+#          args:
+#            name: fallbackcmd
+#            # 指定熔断器方法
+#            fallbackUri: forward:/userFallBack
+      - id: user2-service
+        uri: lb://user
+        predicates:
+        # 匹配路径 所以实际访问路径为user/hi
+        - Path=/user2/**
+        filters:
+        - StripPrefix=1
+      - id: other-service
+        uri: lb://other
+        predicates:
+        # 匹配路径 所有上面不符合的路径都走这里
+        - Path=/**
+  main:
+      allow-bean-definition-overriding: true
+server:
+  port: 8088
+
+
