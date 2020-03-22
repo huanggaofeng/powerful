@@ -34,13 +34,13 @@ public class UserApplicationTests {
         // userService.insertUserNoTra();
 
         System.out.println(1);
-        userService.updateUser(30);
+        /*userService.updateUser(30);
         System.out.println(2);
         userService.updateUser(30);
         System.out.println(3);
         userService.updateUser(30);
         System.out.println(4);
-        userService.updateUser(30);
+        userService.updateUser(30);*/
 
     }
 }

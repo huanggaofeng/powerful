@@ -17,7 +17,7 @@ public interface UserService extends IService<User> {
 
     void insertUserTra();
 
-    void updateUser(Integer id);
+    void updateUser(Integer id, String name);
 
 
 }

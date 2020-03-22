@@ -17,7 +17,7 @@ import java.util.List;
  * created by hgf
  * created time is 2019/12/11
  */
-@Configuration
+//@Configuration
 public class ExceptionConfig {
     /**
      * 自定义异常处理[@@]注册Bean时依赖的Bean，会从容器中直接获取，所以直接注入即可

@@ -29,7 +29,12 @@ public class RedisController {
     }
 
     @GetMapping("/userFallBack")
-    public String userFallBack() {
+    public String userFallBackGet() {
+        return "用户前方正忙，请稍后重试";
+    }
+
+    @PostMapping("/userFallBack")
+    public String userFallBackPost() {
         return "用户前方正忙，请稍后重试";
     }
 }

@@ -79,7 +79,7 @@ public class GatewayRateLimitFilterByIP implements GatewayFilter, Ordered {
             /*log.error("IP:{} ,限制访问:{} ", ip, bucket.getAvailableTokens());
             exchange.getResponse().setStatusCode(HttpStatus.TOO_MANY_REQUESTS);
             return exchange.getResponse().setComplete();*/
-            exchange.getResponse().setStatusCode(HttpStatus.TOO_MANY_REQUESTS);
+            exchange.getResponse().setStatusCode(HttpStatus.OK);
             DataBuffer buffer = exchange.getResponse()
                     .bufferFactory().wrap(HttpStatus.TOO_MANY_REQUESTS.getReasonPhrase().getBytes());
             return exchange.getResponse().writeWith(Flux.just(buffer));

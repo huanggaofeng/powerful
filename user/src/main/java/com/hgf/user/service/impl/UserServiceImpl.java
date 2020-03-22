@@ -60,11 +60,10 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
     }
 
     @Override
-    @Async
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public void updateUser(Integer id) {
+    @Transactional()
+    public void updateUser(Integer id, String name) {
         User u = this.baseMapper.selectById(id);
-        u.setAge(u.getAge() + 1);
+        u.setUserName(name);
         this.updateById(u);
     }
 
