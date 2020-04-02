@@ -2,7 +2,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <!--指定父项目-->
     <parent>
         <groupId>com.hgf</groupId>
         <artifactId>powerful</artifactId>
@@ -10,24 +9,20 @@
     </parent>
     <!--本模块基本信息-->
     <groupId>com.hgf</groupId>
-    <artifactId>user</artifactId>
+    <artifactId>order</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>user</name>
+    <name>order</name>
     <description>Demo project for Spring Boot</description>
+
     <properties>
+        <java.version>1.8</java.version>
         <seata.version>1.1.0</seata.version>
     </properties>
-    <!--本模块依赖-->
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>16.0.3</version>
-            <scope>compile</scope>
         </dependency>
         <!-- seata-->
         <dependency>
@@ -41,5 +36,14 @@
             <version>${seata.version}</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

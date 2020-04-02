@@ -1,17 +1,18 @@
 package com.hgf.controla.config;
 
+import cn.hutool.db.nosql.redis.RedisDS;
 import com.hgf.controla.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
+import redis.clients.jedis.Jedis;
 
 import java.util.concurrent.TimeUnit;
 
@@ -19,10 +20,9 @@ import java.util.concurrent.TimeUnit;
  * created by hgf
  * created time is 2020/3/1
  */
-@Configuration
+// @Configuration
 public class SystemFilter implements GlobalFilter, Ordered {
-    @Autowired
-    private RedisTemplate redisTemplate;
+    private Jedis jedis = RedisDS.create().getJedis();
 
     private final String TOKRN = "token";
 
@@ -40,12 +40,12 @@ public class SystemFilter implements GlobalFilter, Ordered {
                 // todo 这种方法感觉不太好，但是暂时没想到好方案，后续在修改
                 // 为了让一直在使用的人token不会失效。
                 String token = request.getCookies().get(TOKRN).get(0).getValue();
-                Long t = redisTemplate.getExpire("hgf", TimeUnit.SECONDS);
-                String rt = redisTemplate.opsForValue().get("hgf").toString();
+                Long t = jedis.ttl("hgf");
+                String rt = jedis.get("hgf");
                 if (token.equals(rt)) {
                     // 当redis过期时间小于指定时间时，重新设置过期时间
                     if (t < 10) {
-                        redisTemplate.expire("hgf", 60L, TimeUnit.SECONDS);
+                        jedis.expire("hgf", 60);
                     }
                     return chain.filter(exchange);
                 }

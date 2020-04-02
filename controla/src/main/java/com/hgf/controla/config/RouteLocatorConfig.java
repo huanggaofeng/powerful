@@ -22,6 +22,15 @@ public class RouteLocatorConfig {
                     f.hystrix(config -> config.setFallbackUri("forward:/userFallBack").setName("fallbackcmd"));
                     return f;
                 })
-                .uri("lb://user").order(0).id("user-service")).build();
+                .uri("lb://user").order(0).id("user-service"))
+                .route(r -> r.path("/order/**")
+                        .filters(f -> {
+                            f.filter(new GatewayRateLimitFilterByIP(1, 1, Duration.ofSeconds(1)));
+                            f.stripPrefix(1);
+                            f.hystrix(config -> config.setFallbackUri("forward:/fallBack").setName("fallbackcmd"));
+                            return f;
+                        })
+                        .uri("lb://order").order(0).id("order-service"))
+                .build();
     }
 }
