@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -30,17 +30,6 @@ public class UserApplicationTests {
 
     @Test
     public void testSave() {
-        // userService.insertUserTra();
-        // userService.insertUserNoTra();
-
-        System.out.println(1);
-        /*userService.updateUser(30);
-        System.out.println(2);
-        userService.updateUser(30);
-        System.out.println(3);
-        userService.updateUser(30);
-        System.out.println(4);
-        userService.updateUser(30);*/
-
+        userService.insertUserTra();
     }
 }

@@ -25,4 +25,16 @@ public class OrderController {
         orderService.placeOrder(1, "hgf-----hgf", money);
         return "SUCCESS";
     }
+
+    @GetMapping("/updateOrder")
+    public String updateOrder(@RequestParam BigDecimal money) {
+        orderService.updateOrder(1, "hgf-----hgf", money);
+        return "SUCCESS";
+    }
+
+    @GetMapping("/updateOrder2")
+    public String updateOrder2(@RequestParam BigDecimal money) {
+        orderService.updateOrder2(1, "hgf-----hgf", money);
+        return "SUCCESS";
+    }
 }

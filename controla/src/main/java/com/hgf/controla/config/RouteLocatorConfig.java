@@ -17,7 +17,7 @@ public class RouteLocatorConfig {
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes().route(r -> r.path("/user/**")
                 .filters(f -> {
-                    f.filter(new GatewayRateLimitFilterByIP(1, 1, Duration.ofSeconds(1)));
+                    f.filter(new GatewayRateLimitFilterByIP(10, 1, Duration.ofSeconds(1)));
                     f.stripPrefix(1);
                     f.hystrix(config -> config.setFallbackUri("forward:/userFallBack").setName("fallbackcmd"));
                     return f;

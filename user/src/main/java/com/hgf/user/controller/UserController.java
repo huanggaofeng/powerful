@@ -1,7 +1,10 @@
 package com.hgf.user.controller;
 
 import cn.hutool.db.nosql.redis.RedisDS;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.hgf.user.dto.UserDto;
+import com.hgf.user.emtity.User;
 import com.hgf.user.emtity.UserAccount;
 import com.hgf.user.service.UserAccountService;
 import com.hgf.user.service.UserService;
@@ -15,6 +18,8 @@ import redis.clients.jedis.Jedis;
 
 import java.math.BigDecimal;
 import java.util.UUID;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * created by hgf
@@ -79,7 +84,30 @@ public class UserController {
     @PostMapping("/updateUserMoney")
     public String updateUserMoney(@RequestParam Integer userId, @RequestParam BigDecimal money) {
         UserAccount userAccount = new UserAccount(userId, 1, money);
-        userAccountService.updateById(userAccount);
+        try {
+            Thread.sleep(5000);
+            userAccountService.updateById(userAccount);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //int i = 1/0;
+        return "SUCCESS";
+    }
+
+    @GetMapping("/getNow")
+    public String getNow() {
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(System.currentTimeMillis());
+        return "SUCCESS";
+    }
+
+    @PostMapping("/updateAge")
+    public String updateAge(Integer age) {
+        userService.updateAge(age);
         return "SUCCESS";
     }
 }

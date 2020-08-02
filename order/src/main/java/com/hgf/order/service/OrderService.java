@@ -31,4 +31,24 @@ public class OrderService {
         // 通过网关调用用户服务更新账号余额，这里就是个练手的例子
         userFeignClient.updateUserMoney(userId, orderMoney);
     }
+
+    @GlobalTransactional(rollbackFor = Exception.class)
+    public void updateOrder(Integer userId, String commodityCode, BigDecimal orderMoney) {
+        Orders order = new Orders(userId, commodityCode, orderMoney);
+        order.setId(58);
+        // 保存订单记录
+        orderDao.updateById(order);
+
+        // 通过网关调用用户服务更新账号余额，这里就是个练手的例子
+        userFeignClient.updateUserMoney(userId, orderMoney);
+    }
+
+    @GlobalTransactional(rollbackFor = Exception.class)
+    public void updateOrder2(Integer userId, String commodityCode, BigDecimal orderMoney) {
+        Orders order = new Orders(userId, commodityCode, orderMoney);
+        order.setId(58);
+        // 保存订单记录
+        orderDao.updateById(order);
+        System.out.println("updateOrder2 完成");
+    }
 }

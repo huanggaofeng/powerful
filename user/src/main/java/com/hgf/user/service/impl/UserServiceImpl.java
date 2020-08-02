@@ -1,15 +1,21 @@
 package com.hgf.user.service.impl;
 
+import cn.hutool.db.nosql.redis.RedisDS;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hgf.user.dao.UserDao;
 import com.hgf.user.emtity.User;
 import com.hgf.user.service.UserService;
+import com.hgf.user.utils.RedisUtils;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import redis.clients.jedis.Jedis;
+
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * created by hgf
@@ -24,17 +30,9 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
     }
 
     @Override
-    @Async
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public User getUserById(Integer id) {
-        User u = this.getById(id);
-        try {
-            Thread.sleep(3000L);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        User u2 = this.baseMapper.selectById(id);
-        return u2;
+        User u = this.baseMapper.selectById(id);
+        return u;
     }
 
     /**
@@ -44,8 +42,6 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
     public void insertUserNoTra() {
         User u = new User("hgf2", 11);
         this.save(u);
-        insertUserTra();
-        int a = 1 / 0;
     }
 
     /**
@@ -56,15 +52,33 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
     public void insertUserTra() {
         User u = new User("hgf3", 12);
         this.save(u);
-        int a = 1 / 0;
+        try {
+            int a = 1 / 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
-    @Transactional()
+    @Transactional
     public void updateUser(Integer id, String name) {
         User u = this.baseMapper.selectById(id);
         u.setUserName(name);
         this.updateById(u);
+    }
+
+    @Override
+    @Transactional
+    public void updateAge(Integer age) {
+        Jedis jedis = RedisDS.create().getJedis();
+        while (!RedisUtils.tryGetDistributedLock(jedis, "userid1", "userid1", 3)) {
+            // System.out.println("尝试获取锁");
+        }
+        User user = this.baseMapper.selectById(1);
+        user.setAge(user.getAge() + 1);
+        this.updateById(user);
+        RedisUtils.releaseDistributedLock(jedis, "userid1", "userid1");
     }
 
 }

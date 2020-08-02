@@ -10,7 +10,7 @@ import java.math.BigDecimal;
  * created by hgf
  * created time is 2020/3/29
  */
-@FeignClient(name = "controla")
+@FeignClient(name = "controla", configuration = ServiceFeignConfiguration.class)
 public interface UserFeignClient {
 
     @PostMapping("/user/user/updateUserMoney")

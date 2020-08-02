@@ -5,7 +5,7 @@ spring:
     #        consul:
     #            port: 8500
     #            host: localhost
-    #            # ×¢²áµ½consulÖĞµÄ·şÎñÃû
+    #            # æ³¨å†Œåˆ°consulä¸­çš„æœåŠ¡å
     #            discovery:
     #                serviceName: user
     nacos:
@@ -58,18 +58,18 @@ server:
 
 #mybatis
 mybatis-plus:
-  # Èç¹ûÊÇ·ÅÔÚsrc/main/javaÄ¿Â¼ÏÂ classpath:/com/yourpackage/*/mapper/*Mapper.xml
-  # Èç¹ûÊÇ·ÅÔÚresourceÄ¿Â¼ classpath:/mapper/*Mapper.xml
+  # å¦‚æœæ˜¯æ”¾åœ¨src/main/javaç›®å½•ä¸‹ classpath:/com/yourpackage/*/mapper/*Mapper.xml
+  # å¦‚æœæ˜¯æ”¾åœ¨resourceç›®å½• classpath:/mapper/*Mapper.xml
   mapper-locations: classpath:mapper/*.xml
-  #ÊµÌåÉ¨Ãè£¬¶à¸öpackageÓÃ¶ººÅ»òÕß·ÖºÅ·Ö¸ô
+  #å®ä½“æ‰«æï¼Œå¤šä¸ªpackageç”¨é€—å·æˆ–è€…åˆ†å·åˆ†éš”
   type-aliases-package: com.hgf.order.entity
   global-config:
     db-config:
-      # AUTO(0)Êı¾İ¿âID×ÔÔö  NONE(1)¸ÃÀàĞÍÎªÎ´ÉèÖÃÖ÷¼üÀàĞÍ(½«¸úËæÈ«¾Ö)  INPUT(2)ÓÃ»§ÊäÈëID
+      # AUTO(0)æ•°æ®åº“IDè‡ªå¢  NONE(1)è¯¥ç±»å‹ä¸ºæœªè®¾ç½®ä¸»é”®ç±»å‹(å°†è·Ÿéšå…¨å±€)  INPUT(2)ç”¨æˆ·è¾“å…¥ID
       id-type: auto
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: false
     call-setters-on-nulls: true
-    # Õâ¸öÅäÖÃ»á½«Ö´ĞĞµÄsql´òÓ¡³öÀ´£¬ÔÚ¿ª·¢»ò²âÊÔµÄÊ±ºò¿ÉÒÔÓÃ
+    # è¿™ä¸ªé…ç½®ä¼šå°†æ‰§è¡Œçš„sqlæ‰“å°å‡ºæ¥ï¼Œåœ¨å¼€å‘æˆ–æµ‹è¯•çš„æ—¶å€™å¯ä»¥ç”¨
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

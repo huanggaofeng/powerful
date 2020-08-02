@@ -100,7 +100,13 @@ spring:
   main:
       allow-bean-definition-overriding: true
 server:
-  port: 8088
+  port: 8888
 
-
-
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            # 全局熔断器5s超时
+            timeoutInMilliseconds: 10000

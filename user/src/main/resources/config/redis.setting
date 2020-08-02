@@ -24,3 +24,6 @@ database = 0
 clientName = hgf-redis
 # SSL连接，默认false
 ssl = false;
+
+# 最大连接数, 默认8个
+maxTotal = 100
